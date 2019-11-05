@@ -30,6 +30,15 @@ export class App extends Component {
         this.airlineService = new AirlineService(this.airline);
         var account = (await this.web3.eth.getAccounts());
         console.log("cuenta" + account);
+
+        this.web3.currentProvider.publicConfigStore.on('update', async function(event) {
+            this.setState({
+                account: event.selectedAddress.toLowerCase()
+            }, () => {
+                this.load();
+            });
+        }.bind(this));
+
         this.setState({
             account: account
         },() => {
@@ -38,7 +47,7 @@ export class App extends Component {
     }
 
     async getBalance() {
-        let weiBalance = await this.web3.eth.getBalance(this.state.account[0]);
+        let weiBalance = await this.web3.eth.getBalance(this.state.account);
         this.setState({
             balance: this.toEther(weiBalance)
         });
