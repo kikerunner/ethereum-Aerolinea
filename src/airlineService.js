@@ -28,7 +28,7 @@ export class AirlineService {
         return this.mapFlights(flights);
     }
 
-    getRefundableEther() {
+    getRefundableEther(from) {
         return this.contract.getRefundableEther({ from });
     }
 
